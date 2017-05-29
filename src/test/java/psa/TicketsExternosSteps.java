@@ -10,22 +10,26 @@ import static org.junit.Assert.assertFalse;
 
 public class TicketsExternosSteps {
 
-    private Cliente cliente;
+    private FachadaSistema sistema;
+    private int clienteId;
+    private boolean resultadoExitoso;
 
     @Dado("^que existe el cliente \"(.*?)\" con numero de telefono \"(.*?)\"$")
     public void que_existe_un_cliente_con_contacto(String nombre, String contacto) throws Throwable {
-        this.cliente = new Cliente(nombre, contacto);
+        this.sistema = new FachadaSistema();
+        this.clienteId = this.sistema.crearCliente(nombre, contacto);
     }
 
     @Cuando("^carga el ticket \"(.+?)\"$")
     public void cuando_carga_el_ticket(String descripcion) throws Throwable {
-        this.cliente.crearTicket(descripcion);
+    	this.resultadoExitoso = this.sistema.crearTicketExterno(descripcion, this.clienteId);
     }
 
     @Entonces("^se crea el ticket cuyo reportante es \"(.+?)\" y cuya descripcion es \"(.+?)\"$")
     public void se_crea_el_ticket_del_cliente_con_descripcion(String nombre,String descripcion) throws Throwable {
-        assertEquals(nombre, this.cliente.getNombre());
-        assertEquals(descripcion, this.cliente.getTicketPorDescripcion(descripcion).getDescripcion());
+        assertTrue(this.resultadoExitoso);
+    	assertEquals(nombre, this.sistema.buscarClientePorId(this.clienteId).getNombre());
+        assertEquals(descripcion, this.sistema.buscarTicketExternoClientePorId(this.clienteId).getDescripcion());
     }
 
 }

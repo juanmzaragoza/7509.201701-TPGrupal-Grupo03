@@ -17,4 +17,8 @@ public class TicketExterno {
 	public String getDescripcion() {
 		return this.descripcion;
 	}
+
+	public Cliente getReportante() {
+		return this.reportante;
+	}
 }
