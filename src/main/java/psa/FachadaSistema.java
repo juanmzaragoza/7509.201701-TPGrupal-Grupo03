@@ -3,14 +3,22 @@ package psa;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FachadaSistema {
+import psa.excepciones.NoExisteEmpleadoException;
+import psa.excepciones.NoExisteTareaException;
+import psa.excepciones.NoExisteTicketException;
 
-	List<Cliente> clientes;
-	List<TicketExterno> ticketsExternos;
+public class FachadaSistema {
+	
+	private List<Cliente> clientes;
+	private List<TicketExterno> ticketsExternos;
+	private List<Empleado> empleados;
+	private List<Tarea> tareas;
 	
 	public FachadaSistema() {
 		this.clientes = new ArrayList<Cliente>();
 		this.ticketsExternos = new ArrayList<TicketExterno>();
+		this.empleados = new ArrayList<Empleado>();
+		this.tareas = new ArrayList<Tarea>();
 	}
 	
 	public int crearCliente(String nombre, String contacto){
@@ -47,4 +55,57 @@ public class FachadaSistema {
 		}
 		throw new NoExisteTicketException();
 	}
+
+	public void crearEmpleado(String empleadoNombre) {
+		this.empleados.add(new Empleado(empleadoNombre));
+	}
+	
+	public void crearTarea(String nombreTarea) {
+		this.tareas.add(new Tarea(nombreTarea));	
+	}
+
+	public boolean asignarEmpleadoaTarea(String nombreEmpleado, String nombreTarea) {
+		
+		try{
+			Tarea tarea = this.obtenerTarea(nombreTarea);
+			Empleado empleado = this.obtenerEmpleado(nombreEmpleado);
+			
+			tarea.asignarEmpleado(empleado);
+			return true;
+		}catch(Exception e){
+			return false;
+		}
+		
+	}
+
+	public boolean estaEmpleadoTrabajandoEnTarea(String nombreEmpleado, String tareaNombre) {
+		try{
+			Tarea tarea = this.obtenerTarea(tareaNombre);
+			Empleado empleado = this.obtenerEmpleado(nombreEmpleado);
+			
+			return tarea.estaTrabajando(empleado) && empleado.estaAsignadoA(tarea);
+		}catch(Exception e){
+			return false;
+		}
+	}
+	
+	private Empleado obtenerEmpleado(String nombreEmpleado) {
+		for(Empleado empleado: this.empleados){
+			if(empleado.getNombre().equals(nombreEmpleado)){
+				return empleado;
+			}
+		}
+		throw new NoExisteEmpleadoException();
+	}
+	
+	private Tarea obtenerTarea(String nombreTarea) {
+		for(Tarea tarea: this.tareas){
+			if(tarea.getNombre().equals(nombreTarea)){
+				return tarea;
+			}
+		}
+		throw new NoExisteTareaException();
+	}
+
+	
 }
