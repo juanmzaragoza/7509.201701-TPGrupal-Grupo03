@@ -19,9 +19,13 @@ public class Tarea {
 	}
 
 	public void asignarEmpleado(Empleado empleado) {
-		empleado.asignarTarea(this);
+		empleado.asignar(this);
 		this.empleadosTrabajando.add(empleado);
-		
+	}
+	
+	public void asignarEmpleado(Empleado empleado, int duracionTarea) {
+		empleado.asignar(this,duracionTarea);
+		this.empleadosTrabajando.add(empleado);
 	}
 
 	public String getNombre() {
@@ -36,5 +40,13 @@ public class Tarea {
 		}
 		return false;
 	}
+
+	public int obtenerHorasTrabajadas() {
+		int horasTrabajadas = 0;
+		for(Empleado empleado: this.empleadosTrabajando){
+			horasTrabajadas += empleado.horasInsumidasEn(this);
+		}
+		return horasTrabajadas;
+	}	
 
 }

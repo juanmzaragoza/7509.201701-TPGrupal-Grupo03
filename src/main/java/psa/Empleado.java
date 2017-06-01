@@ -17,8 +17,12 @@ public class Empleado {
 		return  nombre;
 	}
 
-	public void asignarTarea(Tarea tarea) {
+	public void asignar(Tarea tarea) {
 		this.trabajos.add(new Trabajo(tarea));
+	}
+	
+	public void asignar(Tarea tarea, int cuyaDuracion) {
+		this.trabajos.add(new Trabajo(tarea, cuyaDuracion));
 	}
 
 	public boolean estaAsignadoA(Tarea tarea) {
@@ -28,5 +32,15 @@ public class Empleado {
 			}
 		}
 		return false;
+	}
+
+	public int horasInsumidasEn(Tarea tarea) {
+		int horasInsumidas = 0;
+		for(Trabajo trabajo: this.trabajos){
+			if(trabajo.estaRealizando(tarea)){
+				horasInsumidas += trabajo.obtenerCantidadHoras();
+			}
+		}
+		return horasInsumidas;
 	}
 }
