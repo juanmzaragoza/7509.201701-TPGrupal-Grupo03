@@ -81,6 +81,7 @@ public class FachadaSistema {
 		
 	}
 
+	//solo para test?
 	public boolean estaEmpleadoTrabajandoEnTarea(String nombreEmpleado, String tareaNombre) {
 		try{
 			Tarea tarea = this.obtenerTarea(tareaNombre);
@@ -137,7 +138,9 @@ public class FachadaSistema {
 	public boolean crearTareaParaRequerimiento(String nombreTarea, String nombreRequerimiento) {
 		try{
 			Requerimiento requerimiento = this.obtenerRequerimiento(nombreRequerimiento);
-			requerimiento.agregar(new Tarea(nombreTarea));
+			Tarea nuevaTarea=new Tarea(nombreTarea);
+			requerimiento.agregar(nuevaTarea);
+			this.tareas.add(nuevaTarea);
 		}catch(Exception e){
 			return false;
 		}
@@ -154,6 +157,7 @@ public class FachadaSistema {
 		throw new NoExisteProyectoException();
 	}
 
+	//para que se usaria si no estuviera el test?
 	public boolean asignarTodosLosEmpleadosaTarea(String nombreTarea, int duracionTarea) {
 		try{
 			Tarea tarea = this.obtenerTarea(nombreTarea);

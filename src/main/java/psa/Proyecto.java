@@ -45,8 +45,8 @@ public class Proyecto {
 
 	public int cantidadHorasTotalesTrabajadas() {
 		int cantidadHoras = 0;
-		if(!this.fases.isEmpty()){
-			cantidadHoras = this.fases.get(0).obtenerHorasTrabajadas();
+		for(Fase fase: this.fases){
+			cantidadHoras += fase.obtenerHorasTrabajadas();
 		}
 		return cantidadHoras;
 	}

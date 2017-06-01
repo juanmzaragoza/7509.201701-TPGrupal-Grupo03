@@ -17,9 +17,13 @@ public class AsignarEmpleado {
 	private final String nombreProyecto = "PSA New Sprintg v1.0.2";
 	private final String nombreRequerimiento = "Pruebas no funcionales";
 	
+	@Dado("^que existe el sistema$")
+	public void que_existe_el_sistema() throws Throwable {
+		sistema = new FachadaSistema();
+	}
+
 	@Dado("^que existe el empleado \"(.*?)\"$")
 	public void que_existe_el_empleado(String empleadoNombre) throws Throwable {
-		sistema = new FachadaSistema();
 		
 		sistema.crearEmpleado(empleadoNombre);
 		nombreEmpleado = empleadoNombre;
